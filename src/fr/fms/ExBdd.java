@@ -32,6 +32,13 @@ public class ExBdd {
         // Tentative de connexion à la base de données avec les informations (url, login, password)
         try (Connection connection = DriverManager.getConnection(url, login, password)) { 
             
+            // Insertion 
+            String insertSql = "INSERT INTO T_Articles (IdCategory, Description, Brand, UnitaryPrice) VALUES (1, 'Manette', 'Dualshock', 59.99)";
+            try (Statement insertStatement = connection.createStatement()) {
+                // Exécution de la requête d'insertion
+                int rowsInserted = insertStatement.executeUpdate(insertSql);
+            }
+            
             // Requête SQL pour sélectionner tous les articles de la table T_Articles
             String strSql = "SELECT * FROM T_Articles";
             
@@ -55,7 +62,7 @@ public class ExBdd {
                 }
             }
             
-            // Affichage des articles récupérés depuis la base de données
+            // Affichage des articles récupérés
             for (Article a : articles) {
                 System.out.println(a.getIdArticle() + " - " + a.getBrand() + " - " + a.getUnitaryPrice());
             }
