@@ -9,66 +9,59 @@ import java.util.ArrayList;
 
 import fr.fms.entities.Article;
 
-public class ExBdd {
 
-    public static void main(String[] args) throws Exception {
-        
-        // Liste pour stocker les articles récupérés 
-        ArrayList<Article> articles = new ArrayList<Article>();
-        
-        try {
-            // Chargement du driver JDBC de MariaDB
-            Class.forName("org.mariadb.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            // Si le driver n'est pas trouvé, on affiche une erreur
-            e.printStackTrace();
-        }
-        
-        // Informations de connexion à la base de données
-        String url = "jdbc:mariadb://localhost:3306/shop"; // URL de la base de données
-        String login = "root"; // Nom d'utilisateur pour la connexion
-        String password = "fms2024"; // Mot de passe pour la connexion
-        
-        // Tentative de connexion à la base de données avec les informations (url, login, password)
-        try (Connection connection = DriverManager.getConnection(url, login, password)) { 
-            
-            // Insertion 
-            String insertSql = "INSERT INTO T_Articles (IdCategory, Description, Brand, UnitaryPrice) VALUES (1, 'Manette', 'Dualshock', 59.99)";
-            try (Statement insertStatement = connection.createStatement()) {
-                // Exécution de la requête d'insertion
-                int rowsInserted = insertStatement.executeUpdate(insertSql);
-            }
-            
-            // Requête SQL pour sélectionner tous les articles de la table T_Articles
-            String strSql = "SELECT * FROM T_Articles";
-            
-            // Création Statement pour exécuter la requête SQL
-            try (Statement statement = connection.createStatement()) {
-                
-                // Exécution de la requête SQL et récupération du résultat dans un ResultSet
-                try (ResultSet resultSet = statement.executeQuery(strSql)) {
-                    
-                    // Parcours des résultats retournés par la requête
-                    while (resultSet.next()) {
-                        // Récupération des données de chaque colonne du ResultSet
-                        int IdCategory = resultSet.getInt(1); // Récupère l'ID de l'article (colonne 1)
-                        String Description = resultSet.getString(2); // Récupère la description (colonne 2)
-                        String Brand = resultSet.getString(3); // Récupère la marque (colonne 3)
-                        double UnitaryPrice = resultSet.getDouble(4); // Récupère le prix unitaire (colonne 4)
-                        
-                        // Création d'un objet Article et ajout à la liste 'articles'
-                        articles.add(new Article(IdCategory, Description, Brand, UnitaryPrice));
-                    }
-                }
-            }
-            
-            // Affichage des articles récupérés
-            for (Article a : articles) {
-                System.out.println(a.getIdArticle() + " - " + a.getBrand() + " - " + a.getUnitaryPrice());
-            }
-        } catch (SQLException e) {
-            // Gestion des exceptions liées à la base de données
-            e.printStackTrace();
-        }
-    }
+public class ExBdd {
+	public static void main(String[] args){
+		ArrayList<Article> articles = new ArrayList<Article>();
+		Article obj1 = new Article("Manette", "Dualshock", 59.99);
+		Article obj2 = new Article(4, 500);
+		Article obj3 = new Article(8);
+		String strSql = "SELECT * FROM T_Articles";
+		String str1 = "INSERT INTO T_Articles ( Description, Brand, UnitaryPrice ) VALUES ( '"+obj1.getDescription()+"' , '"+obj1.getBrand()+"', "+obj1.getUnitaryPrice()+")";
+		String str2 = "UPDATE T_Articles SET UnitaryPrice = "+obj2.getUnitaryPrice()+" WHERE IdArticle = "+obj2.getIdArticle()+"";
+		String str3 = "DELETE FROM T_Articles WHERE IdArticle = "+obj3.getIdArticle()+"";
+		String str4 = "SELECT * FROM T_Articles WHERE IdArticle =4";
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+		}
+		catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		String url = "jdbc:mariadb://localhost:3306/shop";
+		String login = "root";
+		String password = "fms2024";
+		try(Connection connection = DriverManager.getConnection(url, login, password)){
+			Statement statement = connection.createStatement();
+				// Requete d'insertion
+				//statement.execute(str1);
+				ResultSet resultSet = statement.executeQuery(strSql);				
+					
+					while(resultSet.next()) {
+						int rsIdUser = resultSet.getInt(1);
+						String rsDescription = resultSet.getString(2);
+						String rsBrand = resultSet.getString(3);
+						double rsPrice = resultSet.getDouble(4);
+						articles.add((new Article(rsIdUser, rsDescription, rsBrand, rsPrice)));
+					}
+					
+					//request(obj1, str1, statement);
+					//request(obj2, str2, statement);
+					//request(obj3, str3, statement);
+					select(obj2, str4, statement);
+			articles.forEach((a) -> {System.out.println(a.getIdArticle()+ " - " +a.getDescription()+ " - " +a.getBrand()+ " - " +a.getUnitaryPrice());});
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	public static void request(Article obj, String str, Statement statement) throws SQLException {
+		int row1 = statement.executeUpdate(str);
+		 if(row1 == 1) System.out.println("réussi");
+	}
+	public static ResultSet select(Article obj, String str, Statement statement)  throws SQLException{
+		ResultSet resultSet = statement.executeQuery(str);
+		return resultSet;
+	}
+
 }

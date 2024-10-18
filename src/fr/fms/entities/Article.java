@@ -1,65 +1,67 @@
 package fr.fms.entities;
 
 public class Article {
-    // Les attributs
     private int idArticle;
     private String description;
     private String brand;
     private double unitaryPrice;
-    
-    // Constructeur
+
     public Article(int idArticle, String description, String brand, double unitaryPrice) {
         this.idArticle = idArticle;
         this.description = description;
         this.brand = brand;
         this.unitaryPrice = unitaryPrice;
     }
-   
 
-    public int getIdArticle() {
-		return idArticle;
-	}
-
-
-	public void setIdArticle(int idArticle) {
+    public Article(int idArticle) {
 		this.idArticle = idArticle;
 	}
 
-
-	public String getDescription() {
-		return description;
-	}
-
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
-	public String getBrand() {
-		return brand;
-	}
-
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-
-	public double getUnitaryPrice() {
-		return unitaryPrice;
-	}
-
-
-	public void setUnitaryPrice(double unitaryPrice) {
+	public Article(int idArticle, double unitaryPrice) {
+		this.idArticle = idArticle;
 		this.unitaryPrice = unitaryPrice;
 	}
 
+	public Article(String description, String brand, double unitaryPrice) {
+		this.description = description;
+		this.brand = brand;
+		this.unitaryPrice = unitaryPrice;
+	}
 
-	// Méthode pour afficher les informations de l'article sous forme de chaîne
+	public int getIdArticle() {
+        return idArticle;
+    }
+
+    public void setIdArticle(int idArticle) {
+        this.idArticle = idArticle;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public double getUnitaryPrice() {
+        return unitaryPrice;
+    }
+
+    public void setUnitaryPrice(double unitaryPrice) {
+        this.unitaryPrice = unitaryPrice;
+    }
+
     @Override
     public String toString() {
-        return "Article [idArticle=" + idArticle + ", description=" + description + ", brand=" + brand
-                + ", unitaryPrice=" + unitaryPrice + "]";
+        return "Article [idArticle=" + idArticle + ", description=" + description + ", brand=" + brand + ", unitaryPrice=" + unitaryPrice + "]";
     }
 }
