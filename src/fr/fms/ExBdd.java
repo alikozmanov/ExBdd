@@ -14,7 +14,7 @@ public class ExBdd {
 	public static void main(String[] args){
 		ArrayList<Article> articles = new ArrayList<Article>();
 		Article obj1 = new Article("Manette", "Dualshock", 59.99);
-		Article obj2 = new Article(22, 700); // Mettre à jour l'article avec l'Id 13 et changer son prix à 500
+		Article obj2 = new Article(22, 700); // Mettre à jour l'article avec l'Id et son prix
 		Article obj3 = new Article(22);
 		String strSql = "SELECT * FROM T_Articles";
 		String str1 = "INSERT INTO T_Articles ( Description, Brand, UnitaryPrice ) VALUES ( '"+obj1.getDescription()+"' , '"+obj1.getBrand()+"', "+obj1.getUnitaryPrice()+")";
