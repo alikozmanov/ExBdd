@@ -14,8 +14,8 @@ public class ExBdd {
 	public static void main(String[] args){
 		ArrayList<Article> articles = new ArrayList<Article>();
 		Article obj1 = new Article("Manette", "Dualshock", 59.99);
-		Article obj2 = new Article(4, 500);
-		Article obj3 = new Article(8);
+		Article obj2 = new Article(22, 700); // Mettre à jour l'article avec l'Id 13 et changer son prix à 500
+		Article obj3 = new Article(22);
 		String strSql = "SELECT * FROM T_Articles";
 		String str1 = "INSERT INTO T_Articles ( Description, Brand, UnitaryPrice ) VALUES ( '"+obj1.getDescription()+"' , '"+obj1.getBrand()+"', "+obj1.getUnitaryPrice()+")";
 		String str2 = "UPDATE T_Articles SET UnitaryPrice = "+obj2.getUnitaryPrice()+" WHERE IdArticle = "+obj2.getIdArticle()+"";
@@ -33,7 +33,7 @@ public class ExBdd {
 		try(Connection connection = DriverManager.getConnection(url, login, password)){
 			Statement statement = connection.createStatement();
 				// Requete d'insertion
-				//statement.execute(str1);
+				statement.execute(str1);
 				ResultSet resultSet = statement.executeQuery(strSql);				
 					
 					while(resultSet.next()) {
@@ -44,9 +44,6 @@ public class ExBdd {
 						articles.add((new Article(rsIdUser, rsDescription, rsBrand, rsPrice)));
 					}
 					
-					//request(obj1, str1, statement);
-					//request(obj2, str2, statement);
-					//request(obj3, str3, statement);
 					select(obj2, str4, statement);
 			articles.forEach((a) -> {System.out.println(a.getIdArticle()+ " - " +a.getDescription()+ " - " +a.getBrand()+ " - " +a.getUnitaryPrice());});
 			
