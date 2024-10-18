@@ -2,6 +2,8 @@
 // Permet de gérer la connexion à une base de données en récupérant les informations d'un fichier de configuration, 
 // puis de lire les données d'une table (T_Articles) pour les afficher dans la console.
 
+// Créer un fichier de configuration
+
 package fr.fms.entities;
 
 import java.io.FileInputStream;
