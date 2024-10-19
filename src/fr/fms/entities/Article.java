@@ -1,3 +1,6 @@
+// Définit une classe Java appelée Article qui modélise un article avec des attributs tels que l'identifiant, la description, 
+// la marque et le prix unitaire, offrant des méthodes pour les gérer et une représentation textuelle de l'objet.
+
 package fr.fms.entities;
 
 public class Article {
