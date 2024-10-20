@@ -42,7 +42,9 @@ public class CreateConfigFile {
                  Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(strSql)) {
 
-                // Parcours des résultats de la requête
+                // Autentification de l'utilisateur
+            	if (authenticateUser(connection)) {
+            		// Parcours des résultats de la requête
                 while (resultSet.next()) {
                     int rsIdUser = resultSet.getInt(1);
                     String rsDescription = resultSet.getString(2);
@@ -54,6 +56,9 @@ public class CreateConfigFile {
                 // Affiche les articles
                 articles.forEach(a -> System.out.println(
                         a.getIdArticle() + " - " + a.getDescription() + " - " + a.getBrand() + " - " + a.getUnitaryPrice()));
+            } else {
+            	System.out.println("Accès refusé, identifiants incorrects");
+            	}
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -64,7 +69,12 @@ public class CreateConfigFile {
         }
     }
 
-    // Méthode pour charger les propriétés depuis un fichier
+    private static boolean authenticateUser(Connection connection) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	// Méthode pour charger les propriétés depuis un fichier
     private static Properties config(String filePath) throws IOException {
         Properties prop = new Properties();
         try (FileInputStream fis = new FileInputStream(filePath)) {
@@ -73,6 +83,7 @@ public class CreateConfigFile {
         return prop;
     }
 
+    
     // Méthode pour créer un fichier de configuration
     private static void createFile() throws IOException {
         Properties prop = new Properties();
@@ -88,4 +99,20 @@ public class CreateConfigFile {
             System.out.println("Fichier de configuration créé avec succès :)");
         }
     }
+ // Méthode pour authentifier l'utilisateur
+    private static boolean authenticateUser(Connection connection) throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Entrez votre login : ");
+        String userLogin = scanner.nextLine();
+        System.out.print("Entrez votre mot de passe : ");
+        String userPassword = scanner.nextLine();
+
+        String query = "SELECT * FROM T_Users WHERE Login = ? AND Password = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, userLogin);
+            preparedStatement.setString(2, userPassword);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next();  // Retourne vrai si un utilisateur est trouvé
+            }
 }

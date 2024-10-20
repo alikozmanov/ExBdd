@@ -14,8 +14,8 @@ public class ExBdd {
 	public static void main(String[] args){
 		ArrayList<Article> articles = new ArrayList<Article>(); // Création d'une liste pour stocker les articles
 		Article obj1 = new Article("Manette", "Dualshock", 59.99); // Création d'un article
-		Article obj2 = new Article(22, 700); // Mettre à jour l'article avec l'Id et son prix
-		Article obj3 = new Article(22); // La suppression en fonction de l'ID
+		Article obj2 = new Article(26, 700); // Mettre à jour l'article avec l'Id et son prix
+		Article obj3 = new Article(26); // La suppression en fonction de l'ID
 		String strSql = "SELECT * FROM T_Articles";
 		String str1 = "INSERT INTO T_Articles ( Description, Brand, UnitaryPrice ) VALUES ( '"+obj1.getDescription()+"' , '"+obj1.getBrand()+"', "+obj1.getUnitaryPrice()+")";
 		String str2 = "UPDATE T_Articles SET UnitaryPrice = "+obj2.getUnitaryPrice()+" WHERE IdArticle = "+obj2.getIdArticle()+"";
@@ -36,6 +36,7 @@ public class ExBdd {
 		
 		try(Connection connection = DriverManager.getConnection(url, login, password)){
 			Statement statement = connection.createStatement();
+			
 				// Requete d'insertion ici
 				statement.execute(str1);
 				ResultSet resultSet = statement.executeQuery(strSql);				

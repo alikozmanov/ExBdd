@@ -29,6 +29,22 @@ CREATE TABLE T_Articles (
     FOREIGN KEY (IdCategory) REFERENCES T_Categories(IdCategory) -- Clé étrangére sur T_Categories
 ) ENGINE = InnoDB;
 
+
+-- Table des utilisateurs (ex6)
+CREATE TABLE T_Users (
+    IdUser         int(4) PRIMARY KEY AUTO_INCREMENT,
+    Login          varchar(20) NOT NULL,
+    Password       varchar(20) NOT NULL
+) ENGINE = InnoDB
+
+-- Insertion des utilisateurs test (ex6)
+INSERT INTO T_Users (Login, Password) VALUES ('admin', 'admin123');
+INSERT INTO T_Users (Login, Password) VALUES ('user', 'user123');
+
+-- Insertion des catégories et des articles
+INSERT INTO T_Categories (CategoryName) VALUES ('Jeux vidéo'), ('Consoles'), ('Accessoires gaming'), ('PC gamer'), ('Cartes graphiques'), ('Casques VR');
+
+
 -- Insertion des articles avec référence à leur catégorie
 INSERT INTO T_Articles (Description, Brand, UnitaryPrice, IdCategory) VALUES ('Souris', 'Logitoch', 65, 1);
 
@@ -56,4 +72,7 @@ INSERT INTO T_Articles (Description, Brand, UnitaryPrice, IdCategory) VALUES ('W
 
 -- Sélection des articles et des catégories associées
 -- Jointure pour récupérer le nom de la catégorie associée à chaque article
-SELECT A.IdArticle, A.Description, A.Brand, A.UnitaryPrice, C.CategoryName FROM T_Articles A JOIN T_Categories C ON A.IdCategory = C.IdCategory; 
+SELECT A.IdArticle, A.Description, A.Brand, A.UnitaryPrice, C.CategoryName 
+FROM T_Articles A 
+JOIN T_Categories C 
+ON A.IdCategory = C.IdCategory; 
